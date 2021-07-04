@@ -69,11 +69,9 @@ const Part = ({name,exercises}) =>{
 }
 
 const Total = ({parts}) =>{
-  let total = 0;
-  parts.map(p => total+=p.exercises)
   return(
     <div>
-      <b>total of {total} exercises</b>
+      <b>total of {parts.reduce((acc,current) => { return acc + current.exercises},0)} exercises</b>
     </div>
   )
 }
