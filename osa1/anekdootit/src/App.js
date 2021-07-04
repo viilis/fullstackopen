@@ -14,9 +14,7 @@ const App = () => {
   const lista = new Array(anecdotes.length).fill(0)
   const [selected, setSelected] = useState(0)
   const [votes,setVotes] = useState(lista)
-  const [mostvotes,setMostVotes] = useState(0)
-
-  console.log(mostvotes)
+  const [mostvoted,setMostVoted] = useState(0)
 
   const randomGen = () =>{
     const luku = Math.floor(Math.random()*anecdotes.length)
@@ -34,7 +32,7 @@ const App = () => {
     setVotes(kopio)
   
     const indexOfMaxValue = kopio.indexOf(Math.max(...kopio));
-    setMostVotes(indexOfMaxValue)
+    setMostVoted(indexOfMaxValue)
   }
 
   return (
@@ -54,7 +52,7 @@ const App = () => {
       </button>
       <h1>Anecdote with most votes</h1>
       <div>
-        {anecdotes[mostvotes]}
+        {anecdotes[mostvoted]}
       </div>
     </div>
   )
