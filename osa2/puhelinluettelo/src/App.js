@@ -19,8 +19,15 @@ const App = () => {
     const personObject = {
       name: newName
     }
-    setPersons(persons.concat(personObject))
-    setNewName('')
+
+    const names = persons.map(p => p.name)
+
+    if(!(names.find(name => name === personObject.name))){ //miksei toimi
+      setPersons(persons.concat(personObject))
+      setNewName('')
+    }else{
+      alert(`${personObject.name} is already added to phonebook`)
+    }
   }
 
   const handleNewNameChange = (event) =>{
