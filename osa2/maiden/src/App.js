@@ -9,13 +9,34 @@ const Search = ({value,onChange}) =>{
     </div>
   )
 }
+const Country = ({name,capital,population,languages,flag}) =>{
 
+}
+// vittu mikä himmeli
 const WorldDisplay = ({data,filterstate}) =>{
-  return(
-    <div>
-      {(data.filter(c => c.name.toUpperCase().includes(filterstate.toUpperCase()))).map(fc => fc.name)}
-    </div>
-  )
+  if((data.filter(c => c.name.toUpperCase().includes(filterstate.toUpperCase()))).map(fc => fc.name).length>10){
+    console.log('suurempi kuin 10')
+    return(
+      <div>
+        Too many matches, specify another filter
+      </div>
+    )
+  }
+  else if((data.filter(c => c.name.toUpperCase().includes(filterstate.toUpperCase()))).map(fc => fc.name).length<=10 && (data.filter(c => c.name.toUpperCase().includes(filterstate.toUpperCase()))).map(fc => fc.name).length>1){
+    console.log('10-1')
+    return(
+      <div>
+        {(data.filter(c => c.name.toUpperCase().includes(filterstate.toUpperCase()))).map(fc => fc.name).slice(0,9)}
+      </div>
+    )
+  }
+  else{
+    return(
+      <div>
+        {(data.filter(c => c.name.toUpperCase().includes(filterstate.toUpperCase()))).map(fc => fc.name)}
+      </div>
+    )
+  }
 }
 
 const App = () => {
