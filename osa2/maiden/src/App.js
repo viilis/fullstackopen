@@ -17,7 +17,7 @@ const Country = ({name,capital,population,languages,flag}) =>{
       <div>population {population}</div>
       <h2>languages</h2>
       <ul>
-        
+        {languages.flat().map(l=><li key={l.name}>{l.name}</li>)}
       </ul>
       <img src={flag} width="120" heigth="120" alt="Country flag"/>
     </div>
@@ -40,9 +40,15 @@ const WorldDisplay = ({data,filterstate}) =>{
       </div>
     )
   }
+  else if((data.filter(c => c.name.toUpperCase().includes(filterstate.toUpperCase()))).map(fc => fc.name).length===0){
+    return(
+      <div>
+        nothing found
+      </div>
+    )
+  }
   else{
         const country= data.filter(c => c.name.toUpperCase().includes(filterstate.toUpperCase()))
-        console.log(country)
         return(
           <div>
             <Country name={country.map(c=>c.name)} 
@@ -59,7 +65,6 @@ const App = () => {
 
   const [newData,setNewData] = useState([])
   const [newFilter,setNewFilter] = useState('')
-  //console.log(newData)
 
   const axiosData = () =>{
     axios.get('https://restcountries.eu/rest/v2/all').then(
