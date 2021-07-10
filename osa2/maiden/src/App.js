@@ -2,6 +2,7 @@ import React from 'react'
 import axios from 'axios'
 import { useState,useEffect } from 'react'
 
+//basic responsive searchbar
 const Search = ({value,onChange}) =>{
   return(
     <div>
@@ -9,6 +10,8 @@ const Search = ({value,onChange}) =>{
     </div>
   )
 }
+/*Gets specific countries data parsed. Languages is objects inside of array inside of other array, so
+ it needs to be flatten and mapped for building list*/
 const Country = ({name,capital,population,languages,flag}) =>{
   return(
     <div>
@@ -24,7 +27,9 @@ const Country = ({name,capital,population,languages,flag}) =>{
   )
 
 }
-// vittu mikä himmeli
+/* vittu mikä himmeli. Tässä tarkastellaan kuinka monta tulost filtteriä 
+käyttäen tulee ja sen mukaan valitaan mitä renderöidään.
+tuo data.filter himmeli tosiaan palauttaa pituuden siitä listasta jossa on kaikki filtterillä löydetyt maan nimet*/
 const WorldDisplay = ({data,filterstate}) =>{
   if((data.filter(c => c.name.toUpperCase().includes(filterstate.toUpperCase()))).map(fc => fc.name).length>10){
     return(
@@ -47,6 +52,8 @@ const WorldDisplay = ({data,filterstate}) =>{
       </div>
     )
   }
+  /*tätä käytetään kun löytyy vain yksi oikei, tällöin renderöinti annetaan Country 
+  komponentille koska tarvitaan laajempaa tietoa maasta*/
   else{
         const country= data.filter(c => c.name.toUpperCase().includes(filterstate.toUpperCase()))
         return(
@@ -66,6 +73,7 @@ const App = () => {
   const [newData,setNewData] = useState([])
   const [newFilter,setNewFilter] = useState('')
 
+  //axios data fetch from restcountires.eu
   const axiosData = () =>{
     axios.get('https://restcountries.eu/rest/v2/all').then(
       response => {
@@ -78,7 +86,7 @@ const App = () => {
   const handleFilterChange = (event) =>{
     setNewFilter(event.target.value)
   }
-
+//Searchbar and other part of program
   return (
     <div>
       <Search value={newFilter} onChange={handleFilterChange}/>
