@@ -10,12 +10,23 @@ const Search = ({value,onChange}) =>{
   )
 }
 const Country = ({name,capital,population,languages,flag}) =>{
+  return(
+    <div>
+      <h1>{name}</h1>
+      <div>capital {capital}</div>
+      <div>population {population}</div>
+      <h2>languages</h2>
+      <ul>
+        
+      </ul>
+      <img src={flag} width="120" heigth="120" alt="Country flag"/>
+    </div>
+  )
 
 }
 // vittu mikä himmeli
 const WorldDisplay = ({data,filterstate}) =>{
   if((data.filter(c => c.name.toUpperCase().includes(filterstate.toUpperCase()))).map(fc => fc.name).length>10){
-    console.log('suurempi kuin 10')
     return(
       <div>
         Too many matches, specify another filter
@@ -23,7 +34,6 @@ const WorldDisplay = ({data,filterstate}) =>{
     )
   }
   else if((data.filter(c => c.name.toUpperCase().includes(filterstate.toUpperCase()))).map(fc => fc.name).length<=10 && (data.filter(c => c.name.toUpperCase().includes(filterstate.toUpperCase()))).map(fc => fc.name).length>1){
-    console.log('10-1')
     return(
       <div>
         {(data.filter(c => c.name.toUpperCase().includes(filterstate.toUpperCase()))).map(fc => fc.name).slice(0,9)}
@@ -31,11 +41,17 @@ const WorldDisplay = ({data,filterstate}) =>{
     )
   }
   else{
-    return(
-      <div>
-        {(data.filter(c => c.name.toUpperCase().includes(filterstate.toUpperCase()))).map(fc => fc.name)}
-      </div>
-    )
+        const country= data.filter(c => c.name.toUpperCase().includes(filterstate.toUpperCase()))
+        console.log(country)
+        return(
+          <div>
+            <Country name={country.map(c=>c.name)} 
+            capital={country.map(c=>c.capital)} 
+            population={country.map(c=>c.population)} 
+            languages={country.map(c=>c.languages)} 
+            flag={country.map(c=>c.flag)}/>
+          </div>
+        )
   }
 }
 
@@ -43,6 +59,7 @@ const App = () => {
 
   const [newData,setNewData] = useState([])
   const [newFilter,setNewFilter] = useState('')
+  //console.log(newData)
 
   const axiosData = () =>{
     axios.get('https://restcountries.eu/rest/v2/all').then(
