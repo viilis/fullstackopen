@@ -25,44 +25,53 @@ const Country = ({name,capital,population,languages,flag}) =>{
       <img src={flag} width="120" heigth="120" alt="Country flag"/>
     </div>
   )
-
 }
-/* vittu mikä himmeli. Tässä tarkastellaan kuinka monta tulost filtteriä 
+/*list gets sliced part of previously filtered countries. every*/
+const SmallListOfCountries = ({list}) =>{
+  console.log(list)
+  const handleButtonPress = (country) =>{
+    
+  }
+  return(
+    <div>
+      {list.map(c=> <li key={c.name}>{c.name} <button onClick={handleButtonPress()}>show</button> </li>)}
+    </div>
+  )
+}
+/* Tässä tarkastellaan kuinka monta tulost filtteriä 
 käyttäen tulee ja sen mukaan valitaan mitä renderöidään.
-tuo data.filter himmeli tosiaan palauttaa pituuden siitä listasta jossa on kaikki filtterillä löydetyt maan nimet*/
+tuo data.filter himmeli tosiaan palauttaa pituuden siitä listasta jossa on kaikki filtterillä löydetyt maat*/
 const WorldDisplay = ({data,filterstate}) =>{
-  if((data.filter(c => c.name.toUpperCase().includes(filterstate.toUpperCase()))).map(fc => fc.name).length>10){
+  const countries = (data.filter(c => c.name.toUpperCase().includes(filterstate.toUpperCase())))
+  if(countries.length>10){
     return(
       <div>
         Too many matches, specify another filter
       </div>
     )
   }
-  else if((data.filter(c => c.name.toUpperCase().includes(filterstate.toUpperCase()))).map(fc => fc.name).length<=10 && (data.filter(c => c.name.toUpperCase().includes(filterstate.toUpperCase()))).map(fc => fc.name).length>1){
-    return(
-      <div>
-        {(data.filter(c => c.name.toUpperCase().includes(filterstate.toUpperCase()))).map(fc => fc.name).slice(0,9)}
-      </div>
-    )
+  else if(countries.length<=10 && countries.length>1){
+    return <SmallListOfCountries list={countries.slice(0,9)}/>
   }
-  else if((data.filter(c => c.name.toUpperCase().includes(filterstate.toUpperCase()))).map(fc => fc.name).length===0){
+  else if(countries.length===0){
     return(
       <div>
         nothing found
       </div>
     )
   }
-  /*tätä käytetään kun löytyy vain yksi oikei, tällöin renderöinti annetaan Country 
+  /*tätä käytetään kun löytyy vain yksi oikea, tällöin renderöinti annetaan Country 
   komponentille koska tarvitaan laajempaa tietoa maasta*/
   else{
-        const country= data.filter(c => c.name.toUpperCase().includes(filterstate.toUpperCase()))
         return(
           <div>
-            <Country name={country.map(c=>c.name)} 
-            capital={country.map(c=>c.capital)} 
-            population={country.map(c=>c.population)} 
-            languages={country.map(c=>c.languages)} 
-            flag={country.map(c=>c.flag)}/>
+            <Country 
+            name={countries.map(c=>c.name)} 
+            capital={countries.map(c=>c.capital)} 
+            population={countries.map(c=>c.population)} 
+            languages={countries.map(c=>c.languages)} 
+            flag={countries.map(c=>c.flag)}
+            />
           </div>
         )
   }
