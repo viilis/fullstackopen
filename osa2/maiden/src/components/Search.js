@@ -1,5 +1,5 @@
 import React from 'react'
-//basic responsive searchbar
+
 const Search = ({value,onChange}) =>{
     return(
       <div>
