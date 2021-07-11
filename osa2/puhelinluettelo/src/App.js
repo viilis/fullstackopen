@@ -2,13 +2,18 @@ import React, { useState, useEffect } from 'react'
 import Filter from './components/Filter'
 import Numbers from './components/Numbers'
 import Phonebook from './services/Phonebook'
+import Notification from './components/Notification'
+import ErrorNotification from './components/ErrorNotification'
 
 const App = () => {
   const [ newPersons, setPersons] = useState([]) 
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ newFilter, setNewFilter] = useState('')
+  const [ newMessage, setNewMessage] = useState(null)
+  const [ newError, setErrorMessage] = useState(null)
 
+  //gets phonebook data from the json-server
   useEffect(()=>{
     Phonebook.getAll()
     .then(init =>{setPersons(init)})
@@ -20,30 +25,50 @@ const App = () => {
       name: newName,
       number: newNumber
     }
-
     const names = newPersons.map(person => person.name)
-    //if persons name is not on the list
+    /*Logic for adding new number to the phonebook
+    if persons name is not on the list*/
     if(!(names.find(name => name === personObject.name))){
       //"Add" button mechanics is here
       Phonebook.createPerson(personObject)
       setPersons(newPersons.concat(personObject))
       setNewName('')
       setNewNumber('')
+      setNewMessage(`Added ${personObject.name}`)
+      // "Added"-notification timeout
+      setTimeout( () => {
+        setNewMessage(null)
+      },3000)
       //updates local phonebook that every object has id placed by backend
       Phonebook.getAll().then(init =>{setPersons(init)})
-    }else{
+    }else{ //Logic for updateing number
       if(window.confirm(`${personObject.name} is already added to phonebook, replace the old number with a new one?`)){
         //finds the id from that person that we are trying to add again
         const id = newPersons.find(p => p.name === personObject.name).id
-        Phonebook.update(id,personObject)
-        setNewName('')
-        setNewNumber('')
-        //updates local phonebook that every object has id placed by backend
+        Phonebook.update(id,personObject).then(updatedPerson => {
+          setNewName('')
+          setNewNumber('')
+          setNewMessage(`Replaced ${personObject.name}'s number`)
+          // "Replace"-notification timeout
+          setTimeout( () => {
+            setNewMessage(null)
+          },3000)
+        })
+        .catch(error => {
+          setErrorMessage(`Information of ${personObject.name} has already been removed from server`)
+          // "Error"-notification timeout
+          setTimeout( () => {
+            setErrorMessage(null)
+          },3000)
+        })
+        
+        //updates local phonebook that every object on frontend has id placed by backend
         Phonebook.getAll().then(init =>{setPersons(init)})
       }
     }
   }
 
+  //handlers for input fields and Filter component
   const handleNewNameChange = (event) =>{
     setNewName(event.target.value)
   }
@@ -59,6 +84,8 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+        <Notification message={newMessage}></Notification>
+        <ErrorNotification message={newError}></ErrorNotification>
         <Filter value={newFilter} onChange={handleFilterChange}/>
       <h2>add a new</h2>
       <form onSubmit={addName}>
@@ -73,7 +100,10 @@ const App = () => {
         </div>
       </form>
       <h2>Numbers</h2>
-        <Numbers newPersons={newPersons} newFilter={newFilter} removePerson={setPersons}/>
+        {/*badly designed and broken part of the App. Have to pass every state twice 
+        (from the App component to the Number component and then to the Name component)
+         to reach number deletation logic. Stupid but works*/}
+        <Numbers newPersons={newPersons} newFilter={newFilter} removePerson={setPersons} notification={setNewMessage}/>
     </div>
   )
 }
