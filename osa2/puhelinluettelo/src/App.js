@@ -29,11 +29,17 @@ const App = () => {
       setPersons(newPersons.concat(personObject))
       setNewName('')
       setNewNumber('')
+      //updates local phonebook that every object has id placed by backend
       Phonebook.getAll().then(init =>{setPersons(init)})
     }else{
       if(window.confirm(`${personObject.name} is already added to phonebook, replace the old number with a new one?`)){
+        //finds the id from that person that we are trying to add again
+        const id = newPersons.find(p => p.name === personObject.name).id
+        Phonebook.update(id,personObject)
         setNewName('')
         setNewNumber('')
+        //updates local phonebook that every object has id placed by backend
+        Phonebook.getAll().then(init =>{setPersons(init)})
       }
     }
   }
@@ -53,21 +59,21 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Filter value={newFilter} onChange={handleFilterChange}/>
+        <Filter value={newFilter} onChange={handleFilterChange}/>
       <h2>add a new</h2>
       <form onSubmit={addName}>
         <div>
           name: <input value={newName} onChange={handleNewNameChange}/>
         </div>
         <div>
-        number: <input value={newNumber} onChange={handleNumberChange}/>
+          number: <input value={newNumber} onChange={handleNumberChange}/>
         </div>
         <div>
           <button type="submit">add</button>
         </div>
       </form>
       <h2>Numbers</h2>
-      <Numbers newPersons={newPersons} newFilter={newFilter} removePerson={setPersons}/>
+        <Numbers newPersons={newPersons} newFilter={newFilter} removePerson={setPersons}/>
     </div>
   )
 }
