@@ -22,16 +22,19 @@ const App = () => {
     }
 
     const names = newPersons.map(person => person.name)
-
+    //if persons name is not on the list
     if(!(names.find(name => name === personObject.name))){
       //"Add" button mechanics is here
       Phonebook.createPerson(personObject)
       setPersons(newPersons.concat(personObject))
       setNewName('')
       setNewNumber('')
-
+      Phonebook.getAll().then(init =>{setPersons(init)})
     }else{
-      alert(`${personObject.name} is already added to phonebook`)
+      if(window.confirm(`${personObject.name} is already added to phonebook, replace the old number with a new one?`)){
+        setNewName('')
+        setNewNumber('')
+      }
     }
   }
 
