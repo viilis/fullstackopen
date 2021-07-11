@@ -1,30 +1,19 @@
 import React, { useState, useEffect } from 'react'
 import Filter from './components/Filter'
 import Numbers from './components/Numbers'
-import axios from 'axios'
+import Phonebook from './services/Phonebook'
 
 const App = () => {
-  const [ persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '040-123456' },
-    { name: 'Ada Lovelace', number: '39-44-5323523' },
-    { name: 'Dan Abramov', number: '12-43-234345' },
-    { name: 'Mary Poppendieck', number: '39-23-6423122' }
-  ]) 
+  const [ newpersons, setPersons] = useState([]) 
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ newFilter, setNewFilter] = useState('')
-  const [ newData, setNewData] = useState([])
 
-  const fetchData = () =>{
-    axios.get('http://localhost:3001/persons').then(
-      respose => {
-        setNewData(respose.data)
-      }
-    )
-  }
-  useEffect(fetchData,[])
-  console.log(newData)
-
+  useEffect(()=>{
+    Phonebook.getAll()
+    .then(init =>{setPersons(init)})
+  },[])
+  console.log(newpersons)
 
   const addName = (event) =>{
     event.preventDefault()
@@ -33,12 +22,15 @@ const App = () => {
       number: newNumber
     }
 
-    const names = persons.map(person => person.name)
+    const names = newpersons.map(person => person.name)
 
     if(!(names.find(name => name === personObject.name))){
-      setPersons(persons.concat(personObject))
+      //Add button mechanics is here
+      Phonebook.createPerson(personObject)
+      setPersons(newpersons.concat(personObject))
       setNewName('')
       setNewNumber('')
+
     }else{
       alert(`${personObject.name} is already added to phonebook`)
     }
@@ -73,7 +65,7 @@ const App = () => {
         </div>
       </form>
       <h2>Numbers</h2>
-      <Numbers persons={persons} newFilter={newFilter}/>
+      <Numbers persons={newpersons} newFilter={newFilter}/>
     </div>
   )
 
