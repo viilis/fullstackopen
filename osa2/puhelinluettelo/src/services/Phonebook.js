@@ -12,9 +12,20 @@ const createPerson = newPerson =>{
     return(request.then(response => response.data))
 }
 
-const phonebook ={
-    createPerson,
-    getAll,
+const update = (id,newPerson) => {
+    const request = axios.put(`${baseUrl}/${id}`,newPerson)
+    return(request.then(response => response.data))
 }
 
-export default phonebook
+const deletePerson = (id) =>{
+    axios.delete(`${baseUrl}/${id}`)
+}
+
+const Phonebook ={
+    createPerson,
+    getAll,
+    update,
+    deletePerson,
+}
+
+export default Phonebook

@@ -4,7 +4,7 @@ import Numbers from './components/Numbers'
 import Phonebook from './services/Phonebook'
 
 const App = () => {
-  const [ newpersons, setPersons] = useState([]) 
+  const [ newPersons, setPersons] = useState([]) 
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ newFilter, setNewFilter] = useState('')
@@ -13,7 +13,6 @@ const App = () => {
     Phonebook.getAll()
     .then(init =>{setPersons(init)})
   },[])
-  console.log(newpersons)
 
   const addName = (event) =>{
     event.preventDefault()
@@ -22,12 +21,12 @@ const App = () => {
       number: newNumber
     }
 
-    const names = newpersons.map(person => person.name)
+    const names = newPersons.map(person => person.name)
 
     if(!(names.find(name => name === personObject.name))){
-      //Add button mechanics is here
+      //"Add" button mechanics is here
       Phonebook.createPerson(personObject)
-      setPersons(newpersons.concat(personObject))
+      setPersons(newPersons.concat(personObject))
       setNewName('')
       setNewNumber('')
 
@@ -65,10 +64,9 @@ const App = () => {
         </div>
       </form>
       <h2>Numbers</h2>
-      <Numbers persons={newpersons} newFilter={newFilter}/>
+      <Numbers newPersons={newPersons} newFilter={newFilter} removePerson={setPersons}/>
     </div>
   )
-
 }
 
 export default App

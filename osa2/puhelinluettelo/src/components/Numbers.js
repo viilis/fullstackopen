@@ -1,10 +1,10 @@
 import React from 'react'
 import Name from './Name'
 
-const Numbers = ({persons,newFilter}) =>{
+const Numbers = ({newPersons,newFilter,removePerson}) =>{
     return(
         <div>
-            {(persons.filter(person => person.name.toUpperCase().includes(newFilter.toUpperCase()))).map(filteredperson => <Name person={filteredperson} key={filteredperson.name}/>)}
+            {(newPersons.filter(person => person.name.toUpperCase().includes(newFilter.toUpperCase()))).map(filteredperson =>  <Name person={filteredperson} key={filteredperson.name} newPersons={newPersons} setPersons={removePerson} />)}
         </div>
     )
 }
