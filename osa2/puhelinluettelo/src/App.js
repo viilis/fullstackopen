@@ -62,7 +62,7 @@ const App = () => {
           },3000)
         })
         
-        //updates local phonebook that every object on frontend has id placed by backend
+        //updates local phonebook that every object on  frontend has id placed by backend
         Phonebook.getAll().then(init =>{setPersons(init)})
       }
     }
