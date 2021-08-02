@@ -30,17 +30,27 @@ const App = () => {
     if persons name is not on the list*/
     if(!(names.find(name => name === personObject.name))){
       //"Add" button mechanics is here
-      Phonebook.createPerson(personObject)
-      setPersons(newPersons.concat(personObject))
-      setNewName('')
-      setNewNumber('')
-      setNewMessage(`Added ${personObject.name}`)
-      // "Added"-notification timeout
-      setTimeout( () => {
-        setNewMessage(null)
-      },3000)
-      //updates local phonebook that every object has id placed by backend
-      Phonebook.getAll().then(init =>{setPersons(init)})
+      Phonebook.createPerson(personObject).then(res => {
+        if(res[1]===200 && res[0] !== undefined){
+          setPersons(newPersons.concat(personObject))
+          setNewName('')
+          setNewNumber('')
+          setNewMessage(`Added ${personObject.name}`)
+          // "Added"-notification timeout
+          setTimeout( () => {
+            setNewMessage(null)
+          },3000)
+          //updates local phonebook that every object has id placed by backend
+          Phonebook.getAll().then(init =>{setPersons(init)})
+          }
+      })
+      .catch(error => {
+        setErrorMessage(`name ${personObject.name} or number ${personObject.number} is invalid`)
+        setTimeout( () => {
+          setErrorMessage(null)
+        },3000)
+      })
+
     }else{ //Logic for updateing number
       if(window.confirm(`${personObject.name} is already added to phonebook, replace the old number with a new one?`)){
         //finds the id from that person that we are trying to add again
@@ -55,7 +65,7 @@ const App = () => {
           },3000)
         })
         .catch(error => {
-          setErrorMessage(`Information of ${personObject.name} has already been removed from server`)
+          setErrorMessage(`Information of ${personObject.name} is invalid`)
           // "Error"-notification timeout
           setTimeout( () => {
             setErrorMessage(null)

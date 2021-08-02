@@ -1,6 +1,6 @@
 import axios from "axios";
-
-const baseUrl = '/api/persons'
+//for dev use 'http://localhost:3001/api/persons', for build change to only '/api/persons'
+const baseUrl = 'http://localhost:3001/api/persons'
 
 const getAll = () =>{
     const request = axios.get(baseUrl)
@@ -9,7 +9,7 @@ const getAll = () =>{
 
 const createPerson = newPerson =>{
     const request = axios.post(baseUrl,newPerson)
-    return(request.then(response => response.data))
+    return(request.then(response => [response.data,response.status]))
 }
 
 const update = (id,newPerson) => {
@@ -18,7 +18,8 @@ const update = (id,newPerson) => {
 }
 
 const deletePerson = (id) =>{
-    axios.delete(`${baseUrl}/${id}`)
+    const req = axios.delete(`${baseUrl}/${id}`)
+    return(req.then(res=> res))
 }
 
 const Phonebook ={
