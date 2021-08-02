@@ -13,7 +13,6 @@ const App = () => {
   const [ newMessage, setNewMessage] = useState(null)
   const [ newError, setErrorMessage] = useState(null)
 
-  //gets phonebook data from the json-server
   useEffect(()=>{
     Phonebook.getAll()
     .then(init =>{setPersons(init)})
@@ -44,7 +43,7 @@ const App = () => {
           }
       })
       .catch(error => {
-        setErrorMessage(`name ${personObject.name} or number ${personObject.number} is invalid`)
+        setErrorMessage(`${error.response.data.error}`)
         Phonebook.getAll().then(init =>{setPersons(init)})
         setTimeout( () => {
           setErrorMessage(null)
@@ -66,7 +65,7 @@ const App = () => {
           },3000)
         })
         .catch(error => {
-          setErrorMessage(`Information of ${personObject.name} is invalid`)
+          setErrorMessage(`${error.response.data.error}`)
           Phonebook.getAll().then(init =>{setPersons(init)})
           // "Error"-notification timeout
           setTimeout( () => {
