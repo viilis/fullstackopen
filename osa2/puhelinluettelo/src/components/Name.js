@@ -8,6 +8,7 @@ const Name = ({person,newPersons,setPersons,setNewMessage}) =>{
         Phonebook.deletePerson(person.id)
         setPersons(newPersons.filter(p => person.id !== p.id))
         setNewMessage(`Deleted ${person.name}`)
+        Phonebook.getAll().then(init =>{setPersons(init)})
           // "Added"-notification timeout
           setTimeout( () => {
             setNewMessage(null)

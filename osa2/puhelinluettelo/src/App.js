@@ -36,16 +36,16 @@ const App = () => {
           setNewName('')
           setNewNumber('')
           setNewMessage(`Added ${personObject.name}`)
+          Phonebook.getAll().then(init =>{setPersons(init)})
           // "Added"-notification timeout
           setTimeout( () => {
             setNewMessage(null)
           },3000)
-          //updates local phonebook that every object has id placed by backend
-          Phonebook.getAll().then(init =>{setPersons(init)})
           }
       })
       .catch(error => {
         setErrorMessage(`name ${personObject.name} or number ${personObject.number} is invalid`)
+        Phonebook.getAll().then(init =>{setPersons(init)})
         setTimeout( () => {
           setErrorMessage(null)
         },3000)
@@ -59,6 +59,7 @@ const App = () => {
           setNewName('')
           setNewNumber('')
           setNewMessage(`Replaced ${personObject.name}'s number`)
+          Phonebook.getAll().then(init =>{setPersons(init)})
           // "Replace"-notification timeout
           setTimeout( () => {
             setNewMessage(null)
@@ -66,14 +67,12 @@ const App = () => {
         })
         .catch(error => {
           setErrorMessage(`Information of ${personObject.name} is invalid`)
+          Phonebook.getAll().then(init =>{setPersons(init)})
           // "Error"-notification timeout
           setTimeout( () => {
             setErrorMessage(null)
           },3000)
         })
-        
-        //updates local phonebook that every object on  frontend has id placed by backend
-        Phonebook.getAll().then(init =>{setPersons(init)})
       }
     }
   }
