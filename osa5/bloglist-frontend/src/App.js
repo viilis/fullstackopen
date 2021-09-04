@@ -1,28 +1,22 @@
 import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
-import ErrorNotification from './components/ErrorNotification'
-import Login from './components/Login'
-import Notification from './components/Notification'
+import blogService from './services/blogs'
 
 const App = () => {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [notification, setNotification] = useState(null)
-  const [errorNotification, setErrorNotification] = useState(null)
+  const [blogs, setBlogs] = useState([])
 
-  console.log(notification)
-  console.log(errorNotification)
-
-  useEffect( () => {
-    window.localStorage.clear()
+  useEffect(() => {
+    blogService.getAll().then(blogs =>
+      setBlogs( blogs )
+    )  
   }, [])
 
   return (
     <div>
-      <Notification message={notification}/>
-      <ErrorNotification message={errorNotification}/>
-      {window.localStorage.getItem('token') === null && <Login setUsername={setUsername} setPassword={setPassword} username={username} password={password} setNotification={setNotification} setErrorNotification={setErrorNotification}/>}
-      {window.localStorage.getItem('token') !== null && <Blog/>}
+      <h2>blogs</h2>
+      {blogs.map(blog =>
+        <Blog key={blog.id} blog={blog} />
+      )}
     </div>
   )
 }
