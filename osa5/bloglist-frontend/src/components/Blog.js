@@ -1,8 +1,9 @@
-import React from 'react'
-const Blog = ({blog}) => (
-  <div>
-    {blog.title} {blog.author}
-  </div>  
-)
+import React from 'react';
+import BlogService from '../services/blogs';
 
-export default Blog
+const Blog = async ({ setBlogs }) => {
+  const allBlogs = await BlogService.getAll();
+  console.log(allBlogs);
+  return <div>blogs</div>;
+};
+export default Blog;
