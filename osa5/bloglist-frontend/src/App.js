@@ -1,45 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import Blog from './components/Blog';
-import Login from './components/Login';
+import React, { useState, useEffect } from 'react'
+import Blog from './components/Blog'
+import blogService from './services/blogs'
 
 const App = () => {
-  const [blogs, setBlogs] = useState([]);
-  const [user, setUser] = useState(null);
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [errormessage, setErrorMessage] = useState(null);
-  const [message, setMessage] = useState(null);
+  const [blogs, setBlogs] = useState([])
 
   useEffect(() => {
-    console.log('effect');
-    setUser(null);
-    setBlogs(null);
-  }, []);
+    blogService.getAll().then(blogs =>
+      setBlogs( blogs )
+    )  
+  }, [])
 
-  if (user === null) {
-    return (
-      <div>
-        <Login
-          setUsername={setUsername}
-          setPassword={setPassword}
-          setUser={setUser}
-          setErrorMessage={setErrorMessage}
-          setMessage={setMessage}
-          username={username}
-          password={password}
-        />
-      </div>
-    );
-  } else {
-    return <div></div>;
-  } /* else {
-    return (
-      <div>
-        <h2>blogs</h2>
-        <Blog setBlogs={setBlogs} />
-      </div>
-    );
-  }*/
-};
+  return (
+    <div>
+      <h2>blogs</h2>
+      {blogs.map(blog =>
+        <Blog key={blog.id} blog={blog} />
+      )}
+    </div>
+  )
+}
 
-export default App;
+export default App
