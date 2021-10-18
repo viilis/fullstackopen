@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState} from "react";
 import loginService from "../services/login";
 import blogService from "../services/blogs"
 
@@ -19,7 +19,10 @@ const handleLogin = async (event,setPassword,setUserName,setUser,username,passwo
     }
 }
 
-const LoginForm = ({ username,password,setUser,setUsername,setPassword}) => {
+const LoginForm = ({ setUser }) => {
+
+    const [username, setUserName] = useState('')
+    const [password, setPassword] = useState('')
 
     return (
     <div>
@@ -28,7 +31,7 @@ const LoginForm = ({ username,password,setUser,setUsername,setPassword}) => {
             await handleLogin(
                 event,
                 setPassword,
-                setUsername,
+                setUserName,
                 setUser,
                 username,
                 password
@@ -39,7 +42,7 @@ const LoginForm = ({ username,password,setUser,setUsername,setPassword}) => {
                 <input 
                 type="text"
                 value={username} 
-                onChange={({target})=>setUsername(target.value)}
+                onChange={({target})=>setUserName(target.value)}
                 />
             </div>
             <div>

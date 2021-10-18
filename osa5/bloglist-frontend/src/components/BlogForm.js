@@ -1,6 +1,7 @@
-import React from 'react'
+import React,{useState} from 'react'
 import Blog from '../components/Blog'
 import blogService from '../services/blogs'
+import Toggle from '../components/Toggle'
 
 const handleBlogs = async (event,setBlogs,setTitle,setAuthor,setUrl,title,author,url,username) => {
     try{
@@ -24,14 +25,22 @@ const logOut = () => {
     window.localStorage.clear()
 }
 
-const BlogForm = ({name,setBlogs,setTitle,setAuthor,setUrl,title,author,url,blogs,username}) => {
+const BlogForm = ({name,blogs,username,setBlogs}) => {
+
+    const [title,setTitle] = useState('')
+    const [author,setAuthor] = useState('')
+    const [url,setUrl] = useState('')
+
     return (
     <div>
         <div>
             <h2>Blogs</h2>
-            <p>Logged in as {name}</p>
-            <button onClick={logOut}>Logout</button>
+            <div>
+                Logged in as {name} 
+                <button onClick={logOut}>Logout</button>
+            </div>
         </div>
+        <Toggle buttonLabel="create new blogpost">
         <div>
             <h2>Create new </h2>
             <form onSubmit={(event) =>
@@ -76,6 +85,7 @@ const BlogForm = ({name,setBlogs,setTitle,setAuthor,setUrl,title,author,url,blog
                 </div>
             </form>
         </div>
+        </Toggle>
         <div>
             {blogs.map(blog =>
                 <Blog key={blog.id} blog={blog} />

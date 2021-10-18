@@ -6,12 +6,6 @@ import BlogForm from './components/BlogForm'
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
-  const [username, setUserName] = useState('')
-  const [password, setPassword] = useState('')
-  const [title,setTitle] = useState('')
-  const [author,setAuthor] = useState('')
-  const [url,setUrl] = useState('')
-  //const [message, setMessage] = useState(null)
 
   useEffect( () => {
     const userdata = window.localStorage.getItem('userdata')
@@ -32,26 +26,14 @@ const App = () => {
 
   return (
     <div>
-      {user === null ? (
-      <LoginForm 
-      username={username}
-      password={password}
-      setUser={setUser}
-      setUsername={setUserName}
-      setPassword={setPassword}
-      />) : (
+      {user === null ? ( <LoginForm setUser={setUser}/> ) : 
+      (
         <div>
           <BlogForm 
           name={user.name} 
-          setBlogs={setBlogs} 
-          setTitle={setTitle}
-          setAuthor={setAuthor}
-          setUrl={setUrl}
-          title={title}
-          author={author}
-          url={url}
           blogs={blogs}
-          username={user.username}/>
+          username={user.username}
+          setBlogs={setBlogs}/>
         </div>
       )}
     </div>
