@@ -21,7 +21,7 @@ const Toggle  = (props) => {
             <div style={show}>
                 {props.children}
                 <button onClick={toggleVisibility}>
-                    cancel
+                    {props.hideButtonLabel}
                 </button>
             </div>
         </div>

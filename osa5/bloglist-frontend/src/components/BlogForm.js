@@ -21,11 +21,7 @@ const handleBlogs = async (event,setBlogs,setTitle,setAuthor,setUrl,title,author
     }
 }
 
-const logOut = () => {
-    window.localStorage.clear()
-}
-
-const BlogForm = ({name,blogs,username,setBlogs}) => {
+const BlogForm = ({name,username,setBlogs}) => {
 
     const [title,setTitle] = useState('')
     const [author,setAuthor] = useState('')
@@ -33,14 +29,7 @@ const BlogForm = ({name,blogs,username,setBlogs}) => {
 
     return (
     <div>
-        <div>
-            <h2>Blogs</h2>
-            <div>
-                Logged in as {name} 
-                <button onClick={logOut}>Logout</button>
-            </div>
-        </div>
-        <Toggle buttonLabel="create new blogpost">
+        <Toggle buttonLabel="create new blogpost" hideButtonLabel="cancel">
         <div>
             <h2>Create new </h2>
             <form onSubmit={(event) =>
@@ -86,11 +75,6 @@ const BlogForm = ({name,blogs,username,setBlogs}) => {
             </form>
         </div>
         </Toggle>
-        <div>
-            {blogs.map(blog =>
-                <Blog key={blog.id} blog={blog} />
-            )}
-        </div>
     </div>)
 }
 

@@ -1,3 +1,4 @@
+import { waitFor } from '@testing-library/dom'
 import axios from 'axios'
 const baseUrl = '/api/blogs'
 let token = null
@@ -15,6 +16,13 @@ const blogByUser = (username,blogdata) => {
 const getAllByUser = async (username) => {
   const res = await axios.get(baseUrl)
   return blogByUser(username,res.data)
+}
+
+const giveLike = async (content,id) =>{
+  const config = {
+    headers: {Authorization: token},
+  }
+  await axios.put(baseUrl+'/'+id,content,config)
 }
 
 const postBlog = async (content) => {
