@@ -1,4 +1,3 @@
-import { waitFor } from '@testing-library/dom'
 import axios from 'axios'
 const baseUrl = '/api/blogs'
 let token = null
@@ -6,6 +5,7 @@ let token = null
 const setToken = newToken => {
   token = `bearer ${newToken}`
 }
+
 const blogByUser = (username,blogdata) => {
     const blogs = blogdata.filter(blog => blog.users.username === username)
     return blogs
@@ -22,7 +22,14 @@ const giveLike = async (content,id) =>{
   const config = {
     headers: {Authorization: token},
   }
-  await axios.put(baseUrl+'/'+id,content,config)
+  await axios.put(`${baseUrl}/${id}`,content,config)
+}
+
+const deleteBlog = async (id) =>{
+  const config = {
+    headers: {Authorization: token},
+  }
+  await axios.delete(`${baseUrl}/${id}`,config)
 }
 
 const postBlog = async (content) => {
@@ -32,4 +39,5 @@ const postBlog = async (content) => {
   await axios.post(baseUrl,content,config)
 }
 
-export default { getAllByUser,setToken,postBlog }
+
+export default { getAllByUser,setToken,postBlog,deleteBlog,giveLike }

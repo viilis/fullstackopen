@@ -11,9 +11,9 @@ const handleLogin = async (event,setPassword,setUserName,setUser,username,passwo
         })
         window.localStorage.setItem('userdata',JSON.stringify(user))
         blogService.setToken(user.token)
-        setUser(user)
         setPassword('')
         setUserName('')
+        setUser(user)
     }catch(e){
         console.log(e)
     }

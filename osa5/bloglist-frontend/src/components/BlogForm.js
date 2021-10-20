@@ -1,7 +1,5 @@
 import React,{useState} from 'react'
-import Blog from '../components/Blog'
 import blogService from '../services/blogs'
-import Toggle from '../components/Toggle'
 
 const handleBlogs = async (event,setBlogs,setTitle,setAuthor,setUrl,title,author,url,username) => {
     try{
@@ -16,12 +14,13 @@ const handleBlogs = async (event,setBlogs,setTitle,setAuthor,setUrl,title,author
         setTitle('')
         setAuthor('')
         setUrl('')
+        
     }catch(e){
-
+        console.log(e)
     }
 }
 
-const BlogForm = ({name,username,setBlogs}) => {
+const BlogForm = ({username,setBlogs}) => {
 
     const [title,setTitle] = useState('')
     const [author,setAuthor] = useState('')
@@ -29,9 +28,7 @@ const BlogForm = ({name,username,setBlogs}) => {
 
     return (
     <div>
-        <Toggle buttonLabel="create new blogpost" hideButtonLabel="cancel">
-        <div>
-            <h2>Create new </h2>
+        <h2>Create new </h2>
             <form onSubmit={(event) =>
                 handleBlogs(
                         event,
@@ -73,8 +70,6 @@ const BlogForm = ({name,username,setBlogs}) => {
                     <button type="submit">Create</button>
                 </div>
             </form>
-        </div>
-        </Toggle>
     </div>)
 }
 
