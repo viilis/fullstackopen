@@ -10,7 +10,6 @@ const App = () => {
   const [user, setUser] = useState(null)
 
   useEffect( () => {
-    console.log("localStorage effect")
     const userdata = window.localStorage.getItem('userdata')
     if(userdata){
       const parsedUser = JSON.parse(userdata)
@@ -18,46 +17,42 @@ const App = () => {
       blogService.setToken(parsedUser.token)
     }
   },[])
-  
- useEffect(() => {
-   console.log("blogService effect")
-   if(user !== null){
-    async function fetch() {
-      setBlogs(await blogService.getAllByUser(user.username))
-      }
-    fetch()
+
+  useEffect(() => {
+    if(user !== null){
+      blogService.getAllByUser(user.username).then(blogs => setBlogs(blogs))
     }
-   },[user])
+  },[user])
 
-   const logOut = () => {
+  const logOut = () => {
     window.localStorage.clear()
-}
+  }
 
-const Ref = useRef()
+  const Ref = useRef()
 
   return (
     <div>
-      {user === null ? ( 
-      <div>
-        <LoginForm setUser={setUser}/>
-      </div> ) : 
-      (
+      {user === null ? (
         <div>
-          <h2>Blogs</h2>
+          <LoginForm setUser={setUser}/>
+        </div> ) :
+        (
           <div>
-              Logged in as {user.name} 
+            <h2>Blogs</h2>
+            <div>
+              Logged in as {user.name}
               <button onClick={logOut}>Logout</button>
-          </div>
-          <Toggle buttonLabel="create new blogpost" hideButtonLabel="cancel" ref={Ref}>
-            <BlogForm
-            username={user.username}
-            setBlogs={setBlogs}/>
-          </Toggle>
-          {blogs.map(blog =>
-                <Blog key={blog.id} blog={blog} name={user.name} />
+            </div>
+            <Toggle buttonLabel="create new blogpost" hideButtonLabel="cancel" ref={Ref}>
+              <BlogForm
+                username={user.username}
+                setBlogs={setBlogs}/>
+            </Toggle>
+            {blogs.map(blog =>
+              <Blog key={blog.id} blog={blog} name={user.name} />
             )}
-        </div>
-      )}
+          </div>
+        )}
     </div>
   )
 }

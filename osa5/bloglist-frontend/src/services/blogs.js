@@ -7,8 +7,8 @@ const setToken = newToken => {
 }
 
 const blogByUser = (username,blogdata) => {
-    const blogs = blogdata.filter(blog => blog.users.username === username)
-    return blogs
+  const blogs = blogdata.filter(blog => blog.users.username === username)
+  return blogs
 }
 
 //-----------routes------------
@@ -18,23 +18,23 @@ const getAllByUser = async (username) => {
   return blogByUser(username,res.data)
 }
 
-const giveLike = async (content,id) =>{
+const giveLike = async (content,id) => {
   const config = {
-    headers: {Authorization: token},
+    headers: { Authorization: token },
   }
   await axios.put(`${baseUrl}/${id}`,content,config)
 }
 
-const deleteBlog = async (id) =>{
+const deleteBlog = async (id) => {
   const config = {
-    headers: {Authorization: token},
+    headers: { Authorization: token },
   }
   await axios.delete(`${baseUrl}/${id}`,config)
 }
 
 const postBlog = async (content) => {
   const config = {
-    headers: {Authorization: token},
+    headers: { Authorization: token },
   }
   await axios.post(baseUrl,content,config)
 }

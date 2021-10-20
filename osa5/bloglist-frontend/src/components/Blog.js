@@ -4,7 +4,7 @@ import BlogService from '../services/blogs'
 
 const deleteHandler = async (blog) => {
   try{
-  await BlogService.deleteBlog(blog.id)
+    await BlogService.deleteBlog(blog.id)
   }catch(e){
     console.log(e)
   }
@@ -22,7 +22,7 @@ const likeHandler = async (setLikes,likes,blog) => {
   await BlogService.giveLike(content,blog.id)
 }
 
-const Blog = ({blog,name}) => {
+const Blog = ({ blog,name }) => {
 
   const [likes,setLikes] = useState(blog.likes)
 
@@ -47,11 +47,11 @@ const Blog = ({blog,name}) => {
           <button onClick={ () => likeHandler(setLikes,likes,blog)}> Like </button>
         </div>
         <div>
-        {name}
+          {name}
         </div>
         <button onClick={() => deleteHandler(blog)}>delete</button>
       </Toggle>
-    </div>  
+    </div>
   )
 }
 
