@@ -50,14 +50,14 @@ const Blog = ({ blog,name }) => {
           <div>
             {blog.title} {blog.author}
             <div>
-              <button onClick={ () => blogStateHandler(setBlogFull,blogFull)}>test</button>
+              <button onClick={ () => blogStateHandler(setBlogFull,blogFull)}>view</button>
             </div>
           </div>
         ) : (
           <div>
             {blog.title} {blog.author}
             <div>
-              <button onClick={ () => blogStateHandler(setBlogFull,blogFull)}>test</button>
+              <button onClick={ () => blogStateHandler(setBlogFull,blogFull)}>close</button>
             </div>
             <div>
               {blog.url}
