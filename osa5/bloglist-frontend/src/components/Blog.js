@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import Toggle from './Toggle'
 import BlogService from '../services/blogs'
 
 const deleteHandler = async (blog) => {
@@ -22,10 +21,19 @@ const likeHandler = async (setLikes,likes,blog) => {
   await BlogService.giveLike(content,blog.id)
 }
 
+const blogStateHandler = (setBlogFull,blogFull) => {
+  setBlogFull(!blogFull)
+}
+
 const Blog = ({ blog,name }) => {
 
-  const [likes,setLikes] = useState(blog.likes)
+  /*console.log(blog)
+  console.log(name)*/
 
+  const [likes,setLikes] = useState(blog.likes)
+  const [blogFull, setBlogFull] = useState(false)
+
+  console.log(blogFull)
   const blogStyle = {
     paddingTop:10,
     paddingLeft:5,
@@ -37,20 +45,33 @@ const Blog = ({ blog,name }) => {
 
   return(
     <div style={blogStyle}>
-      {blog.title} {blog.author}
-      <Toggle buttonLabel="view" hideButtonLabel="hide">
-        <div>
-          {blog.url}
-        </div>
-        <div>
-          likes:{likes}
-          <button onClick={ () => likeHandler(setLikes,likes,blog)}> Like </button>
-        </div>
-        <div>
-          {name}
-        </div>
-        <button onClick={() => deleteHandler(blog)}>delete</button>
-      </Toggle>
+      {blogFull === false ?
+        (
+          <div>
+            {blog.title} {blog.author}
+            <div>
+              <button onClick={ () => blogStateHandler(setBlogFull,blogFull)}>test</button>
+            </div>
+          </div>
+        ) : (
+          <div>
+            {blog.title} {blog.author}
+            <div>
+              <button onClick={ () => blogStateHandler(setBlogFull,blogFull)}>test</button>
+            </div>
+            <div>
+              {blog.url}
+            </div>
+            <div>
+            likes:{likes}
+              <button onClick={ () => likeHandler(setLikes,likes,blog)}> Like </button>
+            </div>
+            <div>
+              {name}
+            </div>
+            <button onClick={() => deleteHandler(blog)}>delete</button>
+          </div>
+        )}
     </div>
   )
 }
