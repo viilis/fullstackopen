@@ -24,8 +24,10 @@ const App = () => {
     }
   },[user])
 
-  const logOut = () => {
+
+  const LogOut = () => {
     window.localStorage.clear()
+    location.reload()
   }
 
   const Ref = useRef()
@@ -41,7 +43,7 @@ const App = () => {
             <h2>Blogs</h2>
             <div>
               Logged in as {user.name}
-              <button onClick={logOut}>Logout</button>
+              <button id="logout-button" onClick={LogOut}>Logout</button>
             </div>
             <Toggle buttonLabel="create new blogpost" hideButtonLabel="cancel" ref={Ref}>
               <BlogForm
