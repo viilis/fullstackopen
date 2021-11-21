@@ -40,7 +40,7 @@ const Blog = ({ blog,name }) => {
   }
 
   return(
-    <div style={blogStyle}>
+    <div id="blog-id" style={blogStyle}>
       {blogFull === false ?
         (
           <div>
