@@ -27,13 +27,9 @@ const blogStateHandler = (setBlogFull,blogFull) => {
 
 const Blog = ({ blog,name }) => {
 
-  /*console.log(blog)
-  console.log(name)*/
-
   const [likes,setLikes] = useState(blog.likes)
   const [blogFull, setBlogFull] = useState(false)
 
-  console.log(blogFull)
   const blogStyle = {
     paddingTop:10,
     paddingLeft:5,
@@ -59,10 +55,10 @@ const Blog = ({ blog,name }) => {
             <div>
               <button onClick={ () => blogStateHandler(setBlogFull,blogFull)}>close</button>
             </div>
-            <div>
+            <div className="url">
               {blog.url}
             </div>
-            <div>
+            <div className='likeclass'>
             likes:{likes}
               <button onClick={ () => likeHandler(setLikes,likes,blog)}> Like </button>
             </div>
