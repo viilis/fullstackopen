@@ -40,4 +40,14 @@ Cypress.Commands.add('createBlog', ({ title,author,url,likes }) => {
       'Authorization': `bearer ${JSON.parse(localStorage.getItem('loggedBlogappUser')).token}`
     }
   })
+  Cypress.Commands.add('deleteBlog',({ blogid }) => {
+    cy.request({
+      url: `http://localhost:3003/api/blogs/${blogid}`,
+      method: 'DELETE',
+      body:{},
+      headers:{
+        'Authorization': `bearer ${JSON.parse(localStorage.getItem('loggedBlogappUser')).token}`
+      }
+    })
+  })
 })

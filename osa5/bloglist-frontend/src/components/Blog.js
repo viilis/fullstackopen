@@ -4,6 +4,7 @@ import BlogService from '../services/blogs'
 const deleteHandler = async (blog) => {
   try{
     await BlogService.deleteBlog(blog.id)
+    location.reload()
   }catch(e){
     console.log(e)
   }

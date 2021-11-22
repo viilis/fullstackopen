@@ -36,6 +36,7 @@ describe('Blog app', function() {
       cy.contains('Login')
     })
   })
+
   describe('Blog testing', function(){
     it('posting simple test blog',function(){
 
@@ -51,7 +52,7 @@ describe('Blog app', function() {
 
       cy.contains('test-title')
     })
-    it.only('testing like button', function(){
+    it('testing like button', function(){
 
       cy.get('input:first').type('testuser')
       cy.get('input:last').type('123')
@@ -67,6 +68,24 @@ describe('Blog app', function() {
       cy.get('@ViewButton').click()
       cy.get('.likeclass').contains('Like').click()
       cy.get('.likeclass').contains('1')
+    })
+    it.only('testing blogtext deletion', function(){
+
+      cy.get('input:first').type('testuser')
+      cy.get('input:last').type('123')
+      cy.get('#login-button').click()
+
+      cy.contains('create new blogpost').click()
+      cy.get('#title-id').type('test-title')
+      cy.get('#author-id').type('test-author')
+      cy.get('#url-id').type('test-url')
+      cy.get('#submit-button').click()
+
+      cy.contains('test-title').parent().find('button').as('ViewButton')
+      cy.get('@ViewButton').click()
+
+      cy.contains('delete').click()
+      cy.get('html').should('not.contain', 'test-title')
     })
   })
 })
