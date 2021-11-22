@@ -28,7 +28,7 @@ Cypress.Commands.add('login', ({ username, password }) => {
   cy.request('POST', 'http://localhost:3003/api/login', {
     username, password
   }).then(({ body }) => {
-    localStorage.setItem('loggedBlogappUser', JSON.stringify(body))
+    localStorage.setItem('userdata', JSON.stringify(body))
   })
 })
 Cypress.Commands.add('createBlog', ({ title,author,url,likes }) => {
@@ -37,17 +37,20 @@ Cypress.Commands.add('createBlog', ({ title,author,url,likes }) => {
     method: 'POST',
     body: { title,author,url,likes },
     headers: {
-      'Authorization': `bearer ${JSON.parse(localStorage.getItem('loggedBlogappUser')).token}`
+      'Authorization': `bearer ${JSON.parse(localStorage.getItem('userdata')).token}`
     }
   })
-  Cypress.Commands.add('deleteBlog',({ blogid }) => {
-    cy.request({
-      url: `http://localhost:3003/api/blogs/${blogid}`,
-      method: 'DELETE',
-      body:{},
-      headers:{
-        'Authorization': `bearer ${JSON.parse(localStorage.getItem('loggedBlogappUser')).token}`
-      }
-    })
+})
+Cypress.Commands.add('logout',() => {
+  localStorage.clear()
+})
+Cypress.Commands.add('deleteBlog',({ blogid }) => {
+  cy.request({
+    url: `http://localhost:3003/api/blogs/${blogid}`,
+    method: 'DELETE',
+    body:{},
+    headers:{
+      'Authorization': `bearer ${JSON.parse(localStorage.getItem('userdata')).token}`
+    }
   })
 })

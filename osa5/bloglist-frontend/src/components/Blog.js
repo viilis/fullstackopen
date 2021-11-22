@@ -60,7 +60,8 @@ const Blog = ({ blog,name }) => {
               {blog.url}
             </div>
             <div className='likeclass'>
-            likes:{likes}
+              likes:
+              <span>{likes}</span>
               <button onClick={ () => likeHandler(setLikes,likes,blog)}> Like </button>
             </div>
             <div>
